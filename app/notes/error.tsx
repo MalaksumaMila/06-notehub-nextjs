@@ -3,7 +3,7 @@ interface ErrorProps {
   reset: () => void;
 }
 
-function Error({ error, reset }: ErrorProps) {
+function ErrorMessage({ error, reset }: ErrorProps) {
   return (
     <div>
       <p>Could not fetch the list of notes. {error.message}</p>
@@ -12,4 +12,4 @@ function Error({ error, reset }: ErrorProps) {
   );
 }
 
-export default Error;
+export default ErrorMessage;
