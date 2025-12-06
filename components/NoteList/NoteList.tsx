@@ -2,7 +2,7 @@ import css from './NoteList.module.css';
 import type { Note } from '../../types/note';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteNote } from '@/lib/api';
+import { deleteNote, fetchNoteById } from '@/lib/api';
 import Link from 'next/link';
 
 interface NoteListProps {
@@ -27,6 +27,7 @@ export default function NoteList({ notes }: NoteListProps) {
           <p className={css.content}>{note.content}</p>
           <div className={css.footer}>
             <span className={css.tag}>{note.tag}</span>
+
             <button
               className={css.button}
               disabled={isPending}
@@ -34,7 +35,7 @@ export default function NoteList({ notes }: NoteListProps) {
             >
               Delete
             </button>
-            <Link href="/app/notes/[id]">View details</Link>
+            <Link href={`/app/notes/[id]`}>View details</Link>
           </div>
         </li>
       ))}

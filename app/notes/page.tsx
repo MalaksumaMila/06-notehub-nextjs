@@ -9,7 +9,6 @@ import { fetchNotes } from '@/lib/api';
 export default async function NotesPage() {
   const queryClient = new QueryClient();
 
-  // Значення, які відповідають NotesClient
   const query = '';
   const page = 1;
   const sortOrder = 'created';

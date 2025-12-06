@@ -59,3 +59,5 @@ export async function deleteNote(id: Note['id']) {
   });
   return response.data;
 }
+
+export async function fetchNoteById() {}
