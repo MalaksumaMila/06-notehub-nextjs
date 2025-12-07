@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useDebouncedCallback } from 'use-debounce';
-import { useParams } from 'next/navigation';
+
 
 import { fetchNotes, fetchNoteById } from '@/lib/api';
 
