@@ -6,6 +6,7 @@ import {
 import { fetchNoteById } from '@/lib/api';
 import NoteDetailsClient from './NoteDetails.client';
 
+console.log('SERVER TOKEN:', process.env.NOTEHUB_TOKEN);
 export default async function NoteDetailsPage({
   params,
 }: {

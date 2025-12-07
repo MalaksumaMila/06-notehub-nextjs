@@ -1,8 +1,18 @@
 import axios from 'axios';
-import type { Note, NoteTag } from '@/types/note';
+import type { Note } from '@/types/note';
 
-const API_KEY = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 axios.defaults.baseURL = 'https://notehub-public.goit.study/api';
+
+const SERVER_TOKEN = process.env.NOTEHUB_TOKEN;
+const CLIENT_TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
+
+function getToken() {
+  if (typeof window === 'undefined') {
+    return SERVER_TOKEN;
+  }
+
+  return CLIENT_TOKEN;
+}
 
 export interface fetchNotesResponse {
   notes: Note[];
@@ -20,6 +30,7 @@ export async function fetchNotes(
   sortOrder: SortOrder,
   perPage: number
 ): Promise<fetchNotesResponse> {
+  const token = getToken();
   try {
     const response = await axios.get<fetchNotesResponse>(`/notes`, {
       params: {
@@ -29,7 +40,7 @@ export async function fetchNotes(
         perPage,
       },
       headers: {
-        Authorization: `Bearer ${API_KEY}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -40,9 +51,10 @@ export async function fetchNotes(
 }
 
 export async function createNote(data: CreateNoteResponse): Promise<Note> {
+  const token = getToken();
   const response = await axios.post<Note>(`/notes`, data, {
     headers: {
-      Authorization: `Bearer ${API_KEY}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -50,17 +62,19 @@ export async function createNote(data: CreateNoteResponse): Promise<Note> {
 }
 
 export async function deleteNote(id: Note['id']): Promise<Note> {
+  const token = getToken();
   const response = await axios.delete<Note>(`/notes/${id}`, {
     headers: {
-      Authorization: `Bearer ${API_KEY}`,
+      Authorization: `Bearer ${token}`,
     },
   });
   return response.data;
 }
 
 export async function fetchNoteById(id: Note['id']): Promise<Note> {
+  const token = getToken();
   const response = await axios.get<{ note: Note }>(`/notes/${id}`, {
-    headers: { Authorization: `Bearer ${API_KEY}` },
+    headers: { Authorization: `Bearer ${token}` },
   });
 
   return response.data.note;
