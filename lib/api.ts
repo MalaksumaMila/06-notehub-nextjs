@@ -32,9 +32,10 @@ export async function fetchNotes(
         Authorization: `Bearer ${API_KEY}`,
       },
     });
-
+    console.log('API DATA:', response.data);
     return response.data;
   } catch (error) {
+    console.error('fetchNotes ERROR:', error);
     throw error;
   }
 }
