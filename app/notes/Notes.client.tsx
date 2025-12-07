@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useDebouncedCallback } from 'use-debounce';
+import { useParams } from 'next/navigation';
 
-import { fetchNotes } from '@/lib/api';
+import { fetchNotes, fetchNoteById } from '@/lib/api';
 
 import css from './NotesPage.module.css';
 

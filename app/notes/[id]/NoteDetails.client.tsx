@@ -1,32 +1,38 @@
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from '@tanstack/react-query';
-import { fetchNotes } from '@/lib/api';
-import NotesClient from '@/app/notes/Notes.client';
+'use client';
+import css from './notes/NoteDetails.module.css';
+import { fetchNoteById } from '@/lib/api';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 
-export default async function NotesPages() {
-  const queryClient = new QueryClient();
-
-  const initialQuery = '';
-  const initialPage = 1;
-  const sortOrder = 'created';
-  const perPage = 12;
-
-  await queryClient.prefetchQuery({
-    queryKey: ['notes', initialQuery, initialPage, sortOrder, perPage],
-    queryFn: () => fetchNotes(initialQuery, initialPage, sortOrder, perPage),
+export default function NoteDetailsClient() {
+  const params = useParams();
+  const id = params.id as string;
+  const {
+    data: note,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['note', id],
+    queryFn: () => fetchNoteById(id),
   });
 
+  if (isLoading) {
+    return <p>Loading, please wait...</p>;
+  }
+
+  if (isError || !note) {
+    return <p>Something went wrong.</p>;
+  }
+
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <NotesClient
-        initialQuery={initialQuery}
-        initialPage={initialPage}
-        sortOrder={sortOrder}
-        perPage={perPage}
-      />
-    </HydrationBoundary>
+    <div className={css.container}>
+      <div className={css.item}>
+        <div className={css.header}>
+          <h2>{note.title}</h2>
+        </div>
+        <p className={css.content}>{note.content}</p>
+        <p className={css.date}>{note.createdAt}</p>
+      </div>
+    </div>
   );
 }

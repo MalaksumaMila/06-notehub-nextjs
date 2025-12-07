@@ -27,7 +27,7 @@ export default function NoteList({ notes }: NoteListProps) {
           <p className={css.content}>{note.content}</p>
           <div className={css.footer}>
             <span className={css.tag}>{note.tag}</span>
-
+            <Link href={`/notes/${note.id}`}>View details</Link>
             <button
               className={css.button}
               disabled={isPending}
@@ -35,7 +35,6 @@ export default function NoteList({ notes }: NoteListProps) {
             >
               Delete
             </button>
-            <Link href={`/app/notes/[id]`}>View details</Link>
           </div>
         </li>
       ))}
