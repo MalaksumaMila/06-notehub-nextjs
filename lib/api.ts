@@ -9,10 +9,8 @@ export interface fetchNotesResponse {
   totalPages: number;
 }
 
-export interface CreateNoteRequest {
-  title: string;
-  content: string | null;
-  tag: NoteTag;
+export interface CreateNoteResponse {
+  note: Note;
 }
 
 export type SortOrder = 'created' | 'updated';
@@ -41,7 +39,7 @@ export async function fetchNotes(
   }
 }
 
-export async function createNote(data: CreateNoteRequest): Promise<Note> {
+export async function createNote(data: CreateNoteResponse): Promise<Note> {
   const response = await axios.post<Note>(`/notes`, data, {
     headers: {
       Authorization: `Bearer ${API_KEY}`,
@@ -51,7 +49,7 @@ export async function createNote(data: CreateNoteRequest): Promise<Note> {
   return response.data;
 }
 
-export async function deleteNote(id: Note['id']) {
+export async function deleteNote(id: Note['id']): Promise<Note> {
   const response = await axios.delete<Note>(`/notes/${id}`, {
     headers: {
       Authorization: `Bearer ${API_KEY}`,
@@ -60,4 +58,10 @@ export async function deleteNote(id: Note['id']) {
   return response.data;
 }
 
-export async function fetchNoteById() {}
+export async function fetchNoteById(id: Note['id']): Promise<Note> {
+  const response = await axios.get<{ note: Note }>(`/notes/${id}`, {
+    headers: { Authorization: `Bearer ${API_KEY}` },
+  });
+
+  return response.data.note;
+}

@@ -15,13 +15,22 @@ import NoteForm from '@/components/NoteForm/NoteForm';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import Loader from '@/app/loading';
 
-export default function NotesClient() {
-  const sortOrder = 'created';
-  const perPage = 12;
+interface NotesClientProps {
+  initialQuery: string;
+  initialPage: number;
+  sortOrder: 'created' | 'updated';
+  perPage: number;
+}
 
-  const [page, setPage] = useState(1);
-  const [query, setQuery] = useState('');
-  const [search, setSearch] = useState('');
+export default function NotesClient({
+  initialQuery,
+  initialPage,
+  sortOrder,
+  perPage,
+}: NotesClientProps) {
+  const [page, setPage] = useState(initialPage);
+  const [query, setQuery] = useState(initialQuery);
+  const [search, setSearch] = useState(initialQuery);
 
   const debounceSearch = useDebouncedCallback((value: string) => {
     setSearch(value);
@@ -32,7 +41,6 @@ export default function NotesClient() {
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ['notes', query, page, sortOrder, perPage],
     queryFn: () => fetchNotes(query, page, sortOrder, perPage),
-    placeholderData: prev => prev,
   });
 
   const pageCount = data?.totalPages ?? 0;

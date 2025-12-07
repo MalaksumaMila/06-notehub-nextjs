@@ -9,19 +9,24 @@ import { fetchNotes } from '@/lib/api';
 export default async function NotesPage() {
   const queryClient = new QueryClient();
 
-  const query = '';
-  const page = 1;
+  const initialQuery = '';
+  const initialPage = 1;
   const sortOrder = 'created';
   const perPage = 12;
 
   await queryClient.prefetchQuery({
-    queryKey: ['notes', query, page, sortOrder, perPage],
-    queryFn: () => fetchNotes(query, page, sortOrder, perPage),
+    queryKey: ['notes', initialQuery, initialPage, sortOrder, perPage],
+    queryFn: () => fetchNotes(initialQuery, initialPage, sortOrder, perPage),
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <NotesClient />
+      <NotesClient
+        initialQuery={initialQuery}
+        initialPage={initialPage}
+        sortOrder={sortOrder}
+        perPage={perPage}
+      />
     </HydrationBoundary>
   );
 }
