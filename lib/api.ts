@@ -71,11 +71,14 @@ export async function deleteNote(id: Note['id']): Promise<Note> {
   return response.data;
 }
 
-export async function fetchNoteById(id: Note['id']): Promise<Note> {
+export async function fetchNoteById(id: string): Promise<Note> {
   const token = getToken();
-  const response = await axios.get<{ note: Note }>(`/notes/${id}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  return response.data.note;
+  try {
+    const response = await axios.get<{ note: Note }>(`/notes/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data.note;
+  } catch (error) {
+    throw error;
+  }
 }
