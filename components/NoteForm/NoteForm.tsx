@@ -4,17 +4,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import type { FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-// import toast from `react-hot-toast`
+import { CreateNoteRequest } from '@/lib/api';
 
 import { createNote } from '../../lib/api';
 
-interface NoteFormValues {
-  title: string;
-  content: string;
-  tag: 'Todo' | 'Work' | 'Personal' | 'Meeting' | 'Shopping';
-}
-
-const INITIAL_VALUES: NoteFormValues = {
+const INITIAL_VALUES = {
   title: '',
   content: '',
   tag: 'Todo',
@@ -41,7 +35,7 @@ export default function NoteForm({ closeModal }: NoteFormProps) {
   const fieldId = useId();
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (notes: NoteFormValues) => createNote(notes),
+    mutationFn: notes => createNote(notes),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
     },
@@ -51,10 +45,10 @@ export default function NoteForm({ closeModal }: NoteFormProps) {
   });
 
   const handleSubmit = (
-    values: NoteFormValues,
-    formikHelpers: FormikHelpers<NoteFormValues>
+    notes: CreateNoteRequest,
+    formikHelpers: FormikHelpers<CreateNoteRequest>
   ) => {
-    mutation.mutate(values, {
+    mutation.mutate(notes, {
       onSuccess: () => {
         formikHelpers.resetForm();
         closeModal();
