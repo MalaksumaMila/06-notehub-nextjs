@@ -10,7 +10,7 @@ export interface fetchNotesResponse {
   totalPages: number;
 }
 
-export interface CreateNoteResponse {
+export interface CreateNoteRequest {
   note: Note;
 }
 
@@ -40,7 +40,7 @@ export async function fetchNotes(
   }
 }
 
-export async function createNote(data: CreateNoteResponse): Promise<Note> {
+export async function createNote(data: CreateNoteRequest): Promise<Note> {
   const response = await axios.post<Note>(`/notes`, data, {
     headers: {
       Authorization: `Bearer ${CLIENT_TOKEN}`,
