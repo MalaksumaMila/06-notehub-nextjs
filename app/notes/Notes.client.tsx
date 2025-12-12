@@ -1,9 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useDebouncedCallback } from 'use-debounce';
-
 
 import { fetchNotes, fetchNoteById } from '@/lib/api';
 
@@ -42,6 +41,7 @@ export default function NotesClient({
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ['notes', query, page, sortOrder, perPage],
     queryFn: () => fetchNotes(query, page, sortOrder, perPage),
+    placeholderData: keepPreviousData,
   });
 
   const pageCount = data?.totalPages ?? 0;
