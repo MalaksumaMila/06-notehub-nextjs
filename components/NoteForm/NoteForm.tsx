@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import type { FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { CreateNoteRequest } from '@/lib/api';
+import { Note } from '@/types/note';
 
 import { createNote } from '../../lib/api';
 
@@ -34,7 +35,7 @@ interface NoteFormProps {
 export default function NoteForm({ closeModal }: NoteFormProps) {
   const fieldId = useId();
   const queryClient = useQueryClient();
-  const mutation = useMutation({
+  const mutation = useMutation<Note, Error, CreateNoteRequest>({
     mutationFn: notes => createNote(notes),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });

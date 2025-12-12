@@ -11,7 +11,9 @@ export interface fetchNotesResponse {
 }
 
 export interface CreateNoteRequest {
-  note: Note;
+  title: string
+  content: string
+  tag: string
 }
 
 export type SortOrder = 'created' | 'updated';
