@@ -40,9 +40,6 @@ export default function NoteForm({ closeModal }: NoteFormProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
     },
-    // onError: () => {
-    //   toast.error('Error while creating note');
-    // },
   });
 
   const handleSubmit = (
@@ -70,6 +67,7 @@ export default function NoteForm({ closeModal }: NoteFormProps) {
         <div className={css.formGroup}>
           <label htmlFor={`${fieldId}-title`}>Title</label>
           <Field
+            as="textarea"
             id={`${fieldId}-title`}
             type="text"
             name="title"
