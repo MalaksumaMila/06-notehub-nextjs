@@ -67,7 +67,6 @@ export default function NoteForm({ closeModal }: NoteFormProps) {
         <div className={css.formGroup}>
           <label htmlFor={`${fieldId}-title`}>Title</label>
           <Field
-            as="textarea"
             id={`${fieldId}-title`}
             type="text"
             name="title"
@@ -79,6 +78,7 @@ export default function NoteForm({ closeModal }: NoteFormProps) {
         <div className={css.formGroup}>
           <label htmlFor={`${fieldId}-content`}>Content</label>
           <Field
+            as="textarea"
             id={`${fieldId}-content`}
             name="content"
             rows={8}
